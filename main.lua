@@ -38,8 +38,34 @@ end
 
 Runtime:addEventListener( "touch", onScreenTouch )
 
--- function loop()
---    main_game:mainGameLoop()
--- end
 
--- Runtime:addEventListener( "enterFrame", loop )
+local circleInBound
+local xMove = 6
+local yMove = 6
+function loop()
+  if not circleInBound then
+    circleInBound = display.newCircle( 0, 0, 5 )
+    circleInBound:setFillColor(250, 250, 250)
+  end
+  circleInBound.x = circleInBound.x + xMove
+  circleInBound.y = circleInBound.y + yMove
+
+  if circleInBound.x > 900 then
+    xMove = xMove * -1
+  end
+
+  if circleInBound.x < 0 then
+    xMove = xMove * -1
+  end
+
+  if circleInBound.y > 1200 then
+    yMove = yMove * -1
+  end
+
+  if circleInBound.y < 0 then
+    yMove = yMove * -1
+  end
+
+end
+
+Runtime:addEventListener( "enterFrame", loop )
