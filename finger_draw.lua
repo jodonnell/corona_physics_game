@@ -17,5 +17,10 @@ function FingerDraw:movedTo(x, y)
   local line = display.newLine(self.last["x"], self.last["y"], x, y)
   self.last = {x=x, y=y}
   line.strokeWidth = 3
+  line:setStrokeColor(0, 0, 0)
   _.push(lines, line)
+end
+
+function FingerDraw:lines()
+  return lines
 end

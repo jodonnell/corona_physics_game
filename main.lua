@@ -21,6 +21,28 @@ local circleLeft = display.newCircle( 850, 600, 50 )
 circleLeft:setFillColor(250, 0, 250)
 
 
+--circle-based collision detection
+local function hasCollidedCircle( obj1, obj2 )
+   if ( obj1 == nil ) then  --make sure the first object exists
+      return false
+   end
+   if ( obj2 == nil ) then  --make sure the other object exists
+      return false
+   end
+
+   local dx = obj1.x - obj2.x
+   local dy = obj1.y - obj2.y
+
+   local distance = math.sqrt( dx*dx + dy*dy )
+   local objectSize = (obj2.contentWidth/2) + (obj1.contentWidth/2)
+
+   if ( distance < objectSize ) then
+      return true
+   end
+   return false
+end
+
+
 local fingerDraw
 
 local function onScreenTouch( event )
@@ -38,14 +60,16 @@ end
 
 Runtime:addEventListener( "touch", onScreenTouch )
 
+display.setDefault( "background", 1, 1, 1 )
+
 
 local circleInBound
-local xMove = 6
-local yMove = 6
+local xMove = 7
+local yMove = 7
 function loop()
   if not circleInBound then
     circleInBound = display.newCircle( 0, 0, 5 )
-    circleInBound:setFillColor(250, 250, 250)
+    circleInBound:setFillColor(0, 0, 0)
   end
   circleInBound.x = circleInBound.x + xMove
   circleInBound.y = circleInBound.y + yMove
@@ -66,6 +90,15 @@ function loop()
     yMove = yMove * -1
   end
 
+
+  if (fingerDraw) then
+  for k, v in pairs(fingerDraw:lines()) do
+    if (fingerDraw and hasCollidedCircle(circleInBound, v)) then
+      yMove = yMove * -1
+      xMove = xMove * -1
+    end
+  end
+  end
 end
 
 Runtime:addEventListener( "enterFrame", loop )
