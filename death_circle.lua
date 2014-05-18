@@ -8,7 +8,7 @@ function DeathCircle:init(x, y)
   self.circle = display.newCircle( x, y, 50 )
   self:setColor(0.3, 0.3, 0.3)
 
-  physics.addBody( self.circle, "static", {} )
+  physics.addBody( self.circle, "static", {radius=50} )
 
   self.collisionEvent = function(a, event) self:collision(event) end
   self.circle.collision = self.collisionEvent

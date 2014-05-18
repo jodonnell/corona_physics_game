@@ -8,7 +8,7 @@ function GoalCircle:init(x, y)
   self.circle = display.newCircle( x, y, 50 )
   self.circle:setFillColor(1, 0, 1)
 
-  physics.addBody( self.circle, "static", {} )
+  physics.addBody( self.circle, "static", {radius=50} )
 
   self.collisionEvent = function(a, event) self:collision(event) end
   self.circle.collision = self.collisionEvent
