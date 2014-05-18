@@ -6,13 +6,14 @@
 
 require 'finger_draw'
 require 'goal_circle'
+require 'player_ball'
+
+display.setStatusBar( display.HiddenStatusBar )
+display.setDefault( "background", 1, 1, 1 )
 
 local physics = require( "physics" )
 physics.start()
 physics.setGravity( 0, 0 )
-
-
-display.setStatusBar( display.HiddenStatusBar )
 
 leftGoal = GoalCircle(850, 600)
 
@@ -38,30 +39,21 @@ local function onScreenTouch( event )
 
   return true
 end
-
-
 Runtime:addEventListener( "touch", onScreenTouch )
 
-display.setDefault( "background", 1, 1, 1 )
 
-
-local circleInBound
+local playerBall
 function loop()
-  if not circleInBound then
-    circleInBound = display.newCircle( 0, 0, 5 )
-    circleInBound:setFillColor(0, 0, 0)
-    physics.addBody( circleInBound, {radius=5, bounce=1} )
-    circleInBound:setLinearVelocity(300, 300)
+  if not playerBall then
+    playerBall = PlayerBall(0, 0)
   end
 
-  if circleInBound.x > 900 or circleInBound.x < 0 then
-    local vx, vy = circleInBound:getLinearVelocity()
-    circleInBound:setLinearVelocity(vx * -1, vy)
+  if playerBall:shouldBounceOffXWall() then
+    playerBall:reverseXSpeed()
   end
 
-  if circleInBound.y > 1200 or circleInBound.y < 0 then
-    local vx, vy = circleInBound:getLinearVelocity()
-    circleInBound:setLinearVelocity(vx, vy * -1)
+  if playerBall:shouldBounceOffYWall() then
+    playerBall:reverseYSpeed()
   end
 end
 
