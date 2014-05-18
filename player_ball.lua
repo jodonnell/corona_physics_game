@@ -7,7 +7,7 @@ PlayerBall = class()
 function PlayerBall:init(x, y)
   self.circle = display.newCircle( x, y, 5 )
   self.circle:setFillColor(0, 0, 0)
-  physics.addBody( self.circle, {radius=5, bounce=1.0, friction=0.0, density=1.0} )
+  physics.addBody( self.circle, {radius=5, bounce=0.2, friction=0.0, density=1.0} )
   self.circle:setLinearVelocity(300, 300)
 end
 
@@ -29,8 +29,20 @@ function PlayerBall:reverseXSpeed()
 end
 
 function PlayerBall:reverseYSpeed()
-    local vx, vy = self.circle:getLinearVelocity()
-    self.circle:setLinearVelocity(vx, vy * -1)
+  local vx, vy = self.circle:getLinearVelocity()
+  self.circle:setLinearVelocity(vx, vy * -1)
+end
+
+function PlayerBall:update()
+  local vx, vy = self.circle:getLinearVelocity()
+  local impulseX = 0.01
+  local impulseY = 0.01
+  if vx < 0 then
+    impulseX = impulseX * -1
+  elseif vy < 0 then
+    impulseY = impulseY * -1
+  end
+  self.circle:applyLinearImpulse( impulseX, impulseY, self.circle.x, self.circle.y )
 end
 
 function PlayerBall:destroy()

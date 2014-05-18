@@ -88,7 +88,8 @@ function loop()
   if not playerBall then
     playerBall = PlayerBall(380, 440)
   end
-
+  playerBall:update()
+  
   if playerBall:shouldBounceOffXWall() then
     playerBall:reverseXSpeed()
   end
