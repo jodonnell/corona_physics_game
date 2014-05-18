@@ -27,6 +27,13 @@ function FingerDraw:lines()
   return lines
 end
 
+function FingerDraw:update()
+  _.each(lines, function(i,line)
+           local lineWidth = math.random(6, 12)
+           line.strokeWidth = lineWidth
+  end)
+end
+
 function FingerDraw:clear()
   _.each(lines, function(i,line)
            line:removeSelf()

@@ -41,7 +41,7 @@ function resetGoals()
   if deathCircle then
     deathCircle:destroy()
   end
-  deathCircle = DeathCircle(400, 400)
+  deathCircle = DeathCircle(600, 400)
 end
 
 resetGoals()
@@ -80,6 +80,10 @@ function loop()
   if gameOver then
     gameOver = false
     gameOver2()
+  end
+
+  if fingerDraw then
+    fingerDraw:update()
   end
 end
 
