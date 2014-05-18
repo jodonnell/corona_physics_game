@@ -6,41 +6,49 @@
 
 require 'finger_draw'
 
+local physics = require( "physics" )
+physics.start()
+physics.setGravity( 0, 0 )
+
+
 display.setStatusBar( display.HiddenStatusBar )
 -- Your code here
 local circleTop = display.newCircle( 450, 50, 50 )
 circleTop:setFillColor(250, 0, 0)
+physics.addBody( circleTop, "static", {} )
 
 local circleBottom = display.newCircle( 450, 1150, 50 )
 circleBottom:setFillColor(250, 250, 0)
+physics.addBody( circleBottom, "static", {} )
 
 local circleRight = display.newCircle( 50, 600, 50 )
 circleRight:setFillColor(0, 0, 250)
+physics.addBody( circleRight, "static", {} )
 
 local circleLeft = display.newCircle( 850, 600, 50 )
 circleLeft:setFillColor(250, 0, 250)
+physics.addBody( circleLeft, "static", {} )
 
 
---circle-based collision detection
-local function hasCollidedCircle( obj1, obj2 )
-   if ( obj1 == nil ) then  --make sure the first object exists
-      return false
-   end
-   if ( obj2 == nil ) then  --make sure the other object exists
-      return false
-   end
-
-   local dx = obj1.x - obj2.x
-   local dy = obj1.y - obj2.y
-
-   local distance = math.sqrt( dx*dx + dy*dy )
-   local objectSize = (obj2.contentWidth/2) + (obj1.contentWidth/2)
-
-   if ( distance < objectSize ) then
-      return true
-   end
-   return false
+local function onLocalCollision( self, event )
+    if ( event.phase == "began" ) then
+      self:removeSelf()
+    elseif ( event.phase == "ended" ) then
+    end
 end
+
+circleLeft.collision = onLocalCollision
+circleLeft:addEventListener( "collision", circleLeft )
+
+circleTop.collision = onLocalCollision
+circleTop:addEventListener( "collision", circleTop )
+
+circleBottom.collision = onLocalCollision
+circleBottom:addEventListener( "collision", circleBottom )
+
+circleRight.collision = onLocalCollision
+circleRight:addEventListener( "collision", circleRight )
+
 
 
 local fingerDraw
@@ -64,40 +72,22 @@ display.setDefault( "background", 1, 1, 1 )
 
 
 local circleInBound
-local xMove = 7
-local yMove = 7
 function loop()
   if not circleInBound then
     circleInBound = display.newCircle( 0, 0, 5 )
     circleInBound:setFillColor(0, 0, 0)
-  end
-  circleInBound.x = circleInBound.x + xMove
-  circleInBound.y = circleInBound.y + yMove
-
-  if circleInBound.x > 900 then
-    xMove = xMove * -1
+    physics.addBody( circleInBound, {radius=5, bounce=1} )
+    circleInBound:setLinearVelocity(300, 300)
   end
 
-  if circleInBound.x < 0 then
-    xMove = xMove * -1
+  if circleInBound.x > 900 or circleInBound.x < 0 then
+    local vx, vy = circleInBound:getLinearVelocity()
+    circleInBound:setLinearVelocity(vx * -1, vy)
   end
 
-  if circleInBound.y > 1200 then
-    yMove = yMove * -1
-  end
-
-  if circleInBound.y < 0 then
-    yMove = yMove * -1
-  end
-
-
-  if (fingerDraw) then
-  for k, v in pairs(fingerDraw:lines()) do
-    if (fingerDraw and hasCollidedCircle(circleInBound, v)) then
-      yMove = yMove * -1
-      xMove = xMove * -1
-    end
-  end
+  if circleInBound.y > 1200 or circleInBound.y < 0 then
+    local vx, vy = circleInBound:getLinearVelocity()
+    circleInBound:setLinearVelocity(vx, vy * -1)
   end
 end
 

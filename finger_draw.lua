@@ -1,4 +1,5 @@
 require 'class'
+local physics = require( "physics" )
 local _ = require ("moses")
 
 FingerDraw = class()
@@ -18,6 +19,7 @@ function FingerDraw:movedTo(x, y)
   self.last = {x=x, y=y}
   line.strokeWidth = 3
   line:setStrokeColor(0, 0, 0)
+  physics.addBody(line, "static", {})
   _.push(lines, line)
 end
 
