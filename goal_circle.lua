@@ -7,6 +7,7 @@ GoalCircle = class()
 function onLocalCollision( self, event )
     if ( event.phase == "began" ) then
       self:removeSelf()
+      self = nil
     elseif ( event.phase == "ended" ) then
     end
 end
@@ -22,4 +23,10 @@ end
 
 function GoalCircle:setColor(r, g, b)
   self.circle:setFillColor(r, g, b)
+end
+
+function GoalCircle:destroy()
+  if self.cirle then
+    self.circle:removeSelf()
+  end
 end

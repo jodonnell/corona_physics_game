@@ -32,3 +32,8 @@ function PlayerBall:reverseYSpeed()
     local vx, vy = self.circle:getLinearVelocity()
     self.circle:setLinearVelocity(vx, vy * -1)
 end
+
+function PlayerBall:destroy()
+  self.circle:removeSelf()
+  self.circle = nil
+end

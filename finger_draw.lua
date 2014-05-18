@@ -26,3 +26,10 @@ end
 function FingerDraw:lines()
   return lines
 end
+
+function FingerDraw:clear()
+  _.each(lines, function(i,line)
+           line:removeSelf()
+  end)
+  lines = {}
+end
