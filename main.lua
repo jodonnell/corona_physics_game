@@ -5,6 +5,7 @@
 -----------------------------------------------------------------------------------------
 
 require 'finger_draw'
+require 'goal_circle'
 
 local physics = require( "physics" )
 physics.start()
@@ -12,44 +13,17 @@ physics.setGravity( 0, 0 )
 
 
 display.setStatusBar( display.HiddenStatusBar )
--- Your code here
-local circleTop = display.newCircle( 450, 50, 50 )
-circleTop:setFillColor(250, 0, 0)
-physics.addBody( circleTop, "static", {} )
 
-local circleBottom = display.newCircle( 450, 1150, 50 )
-circleBottom:setFillColor(250, 250, 0)
-physics.addBody( circleBottom, "static", {} )
+leftGoal = GoalCircle(850, 600)
 
-local circleRight = display.newCircle( 50, 600, 50 )
-circleRight:setFillColor(0, 0, 250)
-physics.addBody( circleRight, "static", {} )
+rightGoal = GoalCircle(50, 600)
+rightGoal:setColor(0, 0, 250)
 
-local circleLeft = display.newCircle( 850, 600, 50 )
-circleLeft:setFillColor(250, 0, 250)
-physics.addBody( circleLeft, "static", {} )
+topGoal = GoalCircle(450, 50)
+topGoal:setColor(250, 0, 0)
 
-
-local function onLocalCollision( self, event )
-    if ( event.phase == "began" ) then
-      self:removeSelf()
-    elseif ( event.phase == "ended" ) then
-    end
-end
-
-circleLeft.collision = onLocalCollision
-circleLeft:addEventListener( "collision", circleLeft )
-
-circleTop.collision = onLocalCollision
-circleTop:addEventListener( "collision", circleTop )
-
-circleBottom.collision = onLocalCollision
-circleBottom:addEventListener( "collision", circleBottom )
-
-circleRight.collision = onLocalCollision
-circleRight:addEventListener( "collision", circleRight )
-
-
+bottomGoal = GoalCircle(450, 1150)
+bottomGoal:setColor(250, 250, 0)
 
 local fingerDraw
 
