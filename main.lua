@@ -45,6 +45,23 @@ function resetGoals()
     deathCircle:destroy()
   end
   deathCircle = DeathCircle(600, 400)
+
+  if deathCircle2 then
+    deathCircle2:destroy()
+  end
+  deathCircle2 = DeathCircle(300, 400)
+
+
+  if deathCircle3 then
+    deathCircle3:destroy()
+  end
+  deathCircle3 = DeathCircle(300, 800)
+
+  if deathCircle4 then
+    deathCircle4:destroy()
+  end
+  deathCircle4 = DeathCircle(600, 800)
+
 end
 
 resetGoals()
@@ -69,7 +86,7 @@ local gameOver = false
 local playerBall
 function loop()
   if not playerBall then
-    playerBall = PlayerBall(0, 0)
+    playerBall = PlayerBall(380, 440)
   end
 
   if playerBall:shouldBounceOffXWall() then
@@ -113,7 +130,7 @@ function gameOver2()
   end
   resetGoals()
   playerBall:destroy()
-  playerBall = PlayerBall(0, 0)
+  playerBall = PlayerBall(380, 440)
 
   gameTimer:restartTimer()
 end
