@@ -7,7 +7,7 @@ PlayerBall = class()
 function PlayerBall:init(x, y)
   self.circle = display.newCircle( x, y, 5 )
   self.circle:setFillColor(0, 0, 0)
-  physics.addBody( self.circle, {radius=5, bounce=1} )
+  physics.addBody( self.circle, {radius=5, bounce=1.0, friction=0.0, density=1.0} )
   self.circle:setLinearVelocity(300, 300)
 end
 

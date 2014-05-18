@@ -7,6 +7,7 @@
 require 'finger_draw'
 require 'goal_circle'
 require 'player_ball'
+require 'death_circle'
 
 display.setStatusBar( display.HiddenStatusBar )
 display.setDefault( "background", 1, 1, 1 )
@@ -18,13 +19,15 @@ physics.setGravity( 0, 0 )
 leftGoal = GoalCircle(850, 600)
 
 rightGoal = GoalCircle(50, 600)
-rightGoal:setColor(0, 0, 250)
+rightGoal:setColor(0, 0, 1)
 
 topGoal = GoalCircle(450, 50)
-topGoal:setColor(250, 0, 0)
+topGoal:setColor(1, 0, 0)
 
 bottomGoal = GoalCircle(450, 1150)
-bottomGoal:setColor(250, 250, 0)
+bottomGoal:setColor(1, 1, 0)
+
+deathCircle = DeathCircle(400, 400)
 
 local fingerDraw
 

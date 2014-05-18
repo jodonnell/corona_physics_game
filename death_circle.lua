@@ -2,7 +2,7 @@ require 'class'
 local physics = require( "physics" )
 local _ = require ("moses")
 
-GoalCircle = class()
+DeathCircle = class()
 
 function onLocalCollision( self, event )
     if ( event.phase == "began" ) then
@@ -11,15 +11,15 @@ function onLocalCollision( self, event )
     end
 end
 
-function GoalCircle:init(x, y)
+function DeathCircle:init(x, y)
   self.circle = display.newCircle( x, y, 50 )
-  self.circle:setFillColor(1, 0, 1)
   physics.addBody( self.circle, "static", {} )
 
   self.circle.collision = onLocalCollision
   self.circle:addEventListener( "collision", self.circle )
+  self:setColor(0.3, 0.3, 0.3)
 end
 
-function GoalCircle:setColor(r, g, b)
+function DeathCircle:setColor(r, g, b)
   self.circle:setFillColor(r, g, b)
 end
