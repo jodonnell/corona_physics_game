@@ -37,6 +37,7 @@ end
 function FingerDraw:clear()
   _.each(lines, function(i,line)
            line:removeSelf()
+           line = nil
   end)
   lines = {}
 end

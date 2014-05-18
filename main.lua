@@ -74,7 +74,7 @@ local function onScreenTouch( event )
   elseif event.phase == "moved" then
     fingerDraw:movedTo(event.x, event.y)
   elseif event.phase == "ended" or event.phase == "cancelled" then
-    fingerDraw:movedTo(event.x, event.y)
+    fingerDraw:clear()
   end
 
   return true
