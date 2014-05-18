@@ -3,6 +3,9 @@ require 'goal_circle'
 require 'player_ball'
 require 'death_circle'
 require 'game_timer'
+local GGScore = require( "GGScore" )
+local board = GGScore:new( "all", true )
+board:load()
 
 display.setStatusBar( display.HiddenStatusBar )
 display.setDefault( "background", 1, 1, 1 )
@@ -61,7 +64,7 @@ local function onScreenTouch( event )
 end
 Runtime:addEventListener( "touch", onScreenTouch )
 
-
+local runOnce = true
 local gameOver = false
 local playerBall
 function loop()
@@ -84,6 +87,21 @@ function loop()
 
   if fingerDraw then
     fingerDraw:update()
+  end
+
+  if leftGoal.destroyed and rightGoal.destroyed and topGoal.destroyed and bottomGoal.destroyed and runOnce then
+    runOnce = false
+    physics.pause()
+    gameTimer:pause()
+    board:add( "Jacob", gameTimer.time )
+    board:save()
+
+    local scores = board:getScores(true)
+    print(scores[1].value)
+    for i = 1, #scores, 1 do
+      local text = display.newText({x=400, y=30 * i + 100, text=scores[i].value, font=native.systemFont, fontSize=20})
+      text:setFillColor(0, 0, 0)
+    end
   end
 end
 

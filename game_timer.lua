@@ -10,7 +10,7 @@ function GameTimer:init(x, y)
   self.text:setFillColor(0.3, 0.3, 0.3)
 
   self.updateEvent = function(a, event) self:updateTime(event) end
-  timer.performWithDelay( 100, self.updateEvent, 0 )
+  self.timer = timer.performWithDelay( 100, self.updateEvent, 0 )
 end
 
 function GameTimer:destroy()
@@ -31,4 +31,8 @@ end
 
 function GameTimer:restartTimer()
   self.time = 0.0
+end
+
+function GameTimer:pause()
+  timer.pause(self.timer)
 end
