@@ -10,14 +10,14 @@ function FingerDraw:init(x, y)
 end
 
 function FingerDraw:movedTo(x, y)
-  if (#lines > 30) then
+  if (#lines > 70) then
     local removeLine = _.pop(lines)
     removeLine:removeSelf()
   end
 
   local line = display.newLine(self.last["x"], self.last["y"], x, y)
   self.last = {x=x, y=y}
-  line.strokeWidth = 3
+  line.strokeWidth = 4
   line:setStrokeColor(0, 0, 0)
   physics.addBody(line, "static", {})
   _.push(lines, line)
@@ -28,10 +28,6 @@ function FingerDraw:lines()
 end
 
 function FingerDraw:update()
-  _.each(lines, function(i,line)
-           local lineWidth = math.random(6, 12)
-           line.strokeWidth = lineWidth
-  end)
 end
 
 function FingerDraw:clear()
